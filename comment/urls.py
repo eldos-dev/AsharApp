@@ -7,4 +7,5 @@ urlpatterns = [
     path('comments/', views.CommentListView.as_view()),
     path('comment-detail/<int:pk>/', views.CommentDetailView.as_view()),
     path('comment/<int:pk>/', views.CommentUpdateDeleteView.as_view()),
+    path('ratings/', views.RatingListCreateView.as_view()),
 ]

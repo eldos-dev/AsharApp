@@ -35,7 +35,7 @@ class SuggestionRepresentationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Suggestion
-        fields = ('author', 'suggested_translation')
+        fields = ('author', 'suggested_translation',)
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
@@ -49,7 +49,7 @@ class TermSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Term
-        fields = ('id', 'other_lang_examples', 'term', 'description', 'category')
+        fields = ('id', 'other_lang_examples', 'image', 'term', 'description', 'category')
 
     def validate(self, attrs):
         category_slug = attrs.get('category')
@@ -131,3 +131,8 @@ class SuggestionSerializer(serializers.ModelSerializer):
             author=request.user, term=term, **validated_data
         )
         return suggestion
+
+    def to_representation(self, instance):
+        representation = super(SuggestionSerializer, self).to_representation(instance)
+        representation['likes'] = instance.suggestionslikes.count()
+        return representation

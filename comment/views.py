@@ -1,8 +1,8 @@
 from rest_framework import permissions
-from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveUpdateDestroyAPIView, RetrieveAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveUpdateDestroyAPIView, RetrieveAPIView, ListCreateAPIView
 
-from comment.models import Comment
-from comment.serializers import CommentSerializer
+from comment.models import Comment, Rating
+from comment.serializers import CommentSerializer, RatingSerializer
 from term.permissions import IsAuthorPermission
 
 
@@ -30,3 +30,8 @@ class CommentUpdateDeleteView(RetrieveUpdateDestroyAPIView):
     serializer_class = CommentSerializer
     permission_classes = (IsAuthorPermission, )
 
+
+class RatingListCreateView(ListCreateAPIView):
+    queryset = Rating.objects.select_related('author', 'comment')
+    serializer_class = RatingSerializer
+    permission_classes = (permissions.IsAuthenticated, )
