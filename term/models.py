@@ -22,6 +22,7 @@ class Category(models.Model):
 class Term(models.Model):
     term = models.CharField(max_length=200)
     description = models.TextField()
+    image = models.ImageField(upload_to='term/images', blank=True, null=True)
     active = models.BooleanField(default=False)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='terms')
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='category_terms')

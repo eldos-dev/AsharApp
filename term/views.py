@@ -1,5 +1,6 @@
 from django.db.models import Q
 from rest_framework import generics, permissions
+from rest_framework.pagination import PageNumberPagination
 
 from .models import Category, Term, Suggestion
 from .serializers import (
@@ -12,11 +13,18 @@ class CategoryListView(generics.ListAPIView):
     queryset = Category.objects.only('title', 'slug')
     serializer_class = CategorySerializer
 
+class StandardResultsSetPagination(PageNumberPagination):
+    page_size = 1
+    page_size_query_param = 'page_size'
+    max_page_size = 100
+
+
 
 class TermListCreateView(generics.ListCreateAPIView):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
     queryset = Term.objects.select_related('author', 'category')
     serializer_class = TermSerializer
+    pagination_class = StandardResultsSetPagination
 
     def get_queryset(self):
         queryset = Term.objects.select_related('author', 'category')
