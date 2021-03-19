@@ -5,8 +5,6 @@ from comment.models import Comment, Rating
 
 
 class CommentSerializer(serializers.ModelSerializer):
-    """Добавление коммента"""
-
     class Meta:
         model = Comment
         fields = ('id', 'text', 'suggestion')
